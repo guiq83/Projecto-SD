@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: example.ws.handler.HeaderHandlerTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.766 sec <<< FAILURE! - in example.ws.handler.HeaderHandlerTest
+testHeaderHandlerOutbound(example.ws.handler.HeaderHandlerTest)  Time elapsed: 0.038 sec  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<[22]> but was:<[test]>
+	at example.ws.handler.HeaderHandlerTest.testHeaderHandlerOutbound(HeaderHandlerTest.java:77)
+

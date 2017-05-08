@@ -1,0 +1,4 @@
+example/ws/handler/HeaderHandler.class
+example/ws/handler/TimeHandler.class
+example/ws/handler/LoggingHandler.class
+example/ws/handler/MessageContextHandler.class
