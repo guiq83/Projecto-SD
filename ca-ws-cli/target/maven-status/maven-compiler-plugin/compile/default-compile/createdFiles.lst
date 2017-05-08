@@ -1,0 +1,9 @@
+pt/ulisboa/tecnico/sdis/ws/GetCertificate.class
+pt/ulisboa/tecnico/sdis/ws/cli/CAClientException.class
+pt/ulisboa/tecnico/sdis/ws/cli/CAClientApp.class
+pt/ulisboa/tecnico/sdis/ws/ObjectFactory.class
+pt/ulisboa/tecnico/sdis/ws/GetCertificateResponse.class
+pt/ulisboa/tecnico/sdis/ws/CA.class
+pt/ulisboa/tecnico/sdis/ws/CAPortImplService.class
+pt/ulisboa/tecnico/sdis/ws/package-info.class
+pt/ulisboa/tecnico/sdis/ws/cli/CAClient.class
