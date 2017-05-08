@@ -1,0 +1,4 @@
+org/komparator/security/CryptoUtil.class
+org/komparator/security/handler/SignatureHandler.class
+org/komparator/security/handler/LoggingHandler.class
+org/komparator/security/handler/EncryptionHandler.class
