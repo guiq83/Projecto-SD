@@ -5,13 +5,13 @@ import java.util.Properties;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.komparator.mediator.ws.cli.MediatorClient;
-import org.komparator.supplier.ws.cli.SupplierClient;
+//import org.komparator.mediator.ws.cli.MediatorClient;
+//import org.komparator.supplier.ws.cli.SupplierClient;
 
 
 
 public class BaseIT {
-
+	/*
 	private static final String TEST_PROP_FILE = "/test.properties";
 	protected static Properties testProps;
 
@@ -47,5 +47,5 @@ public class BaseIT {
 	@AfterClass
 	public static void cleanup() {
 	}
-
+	*/
 }

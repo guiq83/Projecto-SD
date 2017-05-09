@@ -9,7 +9,7 @@ import org.junit.Test;
  * Test suite
  */
 public class PingIT extends BaseIT {
-
+	/*
     // tests
     // assertEquals(expected, actual);
 
@@ -19,6 +19,6 @@ public class PingIT extends BaseIT {
     public void pingEmptyTest() {
         assertNotNull(mediatorClient.ping("test"));
     }
-
+*/
 
 }

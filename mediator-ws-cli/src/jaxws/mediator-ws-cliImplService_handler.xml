@@ -4,6 +4,9 @@
          <handler-class>example.ws.handler.LoggingHandler</handler-class>
       </handler>
       <handler>
+      	<handler-class>example.ws.handler.TimeHandler</handler-class>
+      </handler>
+      <handler>
          <handler-class>org.komparator.security.handler.EncryptionHandler</handler-class>
       </handler>
       <handler>
