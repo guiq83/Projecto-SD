@@ -36,6 +36,8 @@ public class MediatorEndpointManager {
 	private Endpoint endpoint = null;
 	/** UDDI Naming instance for contacting UDDI server */
 	private UDDINaming uddiNaming = null;
+	
+	private boolean primary = true;
 
 	/** Get UDDI Naming instance for contacting UDDI server */
 	UDDINaming getUddiNaming() {
@@ -51,6 +53,14 @@ public class MediatorEndpointManager {
 
 	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
+	}
+	
+	public void setPrimary(boolean p){
+		this.primary = p;
+	}
+	
+	public boolean isPrimary(){
+		return this.primary;
 	}
 
 	/** constructor with provided UDDI location, WS name, and WS URL */
@@ -86,7 +96,8 @@ public class MediatorEndpointManager {
 			}
 			throw e;
 		}
-		publishToUDDI();
+		if(isPrimary())
+			publishToUDDI();
 	}
 
 	public void awaitConnections() {
