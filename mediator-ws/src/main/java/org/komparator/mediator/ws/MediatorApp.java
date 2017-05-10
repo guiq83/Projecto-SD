@@ -25,14 +25,10 @@ public class MediatorApp {
 			wsURL = args[2];
 			wsI = args[3];
 			endpoint = new MediatorEndpointManager(uddiURL, wsName, wsURL);
-			if(wsI.equals("1")){
-				endpoint.setPrimary(true);
-				//System.out.println("Primary!");	
-			}
-			else{
+			if(wsI.equals("1"))
+				endpoint.setPrimary(true);			
+			else
 				endpoint.setPrimary(false);
-				//System.out.println("Secondary!");
-			}
 			endpoint.setVerbose(true);
 		}
 

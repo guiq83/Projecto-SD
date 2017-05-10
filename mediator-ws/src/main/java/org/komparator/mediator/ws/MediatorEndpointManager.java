@@ -96,8 +96,12 @@ public class MediatorEndpointManager {
 			}
 			throw e;
 		}
-		if(isPrimary())
+		if(isPrimary()){
 			publishToUDDI();
+			//System.out.println("Running as primary Mediator.");
+		}/*
+		else
+			System.out.println("Running as secondary Mediator.");*/
 	}
 
 	public void awaitConnections() {
