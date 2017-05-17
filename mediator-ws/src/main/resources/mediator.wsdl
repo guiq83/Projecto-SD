@@ -56,6 +56,8 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
             <xs:element name="listCartsResponse" type="tns:listCartsResponse"/>
 
             <xs:element name="ping" type="tns:ping"/>
+            
+            <xs:element name="imAlive" type="tns:imAlive"/>
 
             <xs:element name="pingResponse" type="tns:pingResponse"/>
 
@@ -127,6 +129,11 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
             <xs:complexType name="ping">
                 <xs:sequence>
                     <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            
+             <xs:complexType name="imAlive">
+                <xs:sequence>
                 </xs:sequence>
             </xs:complexType>
 
@@ -308,6 +315,11 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
     <message name="ping">
         <part name="parameters" element="tns:ping"/>
     </message>
+    
+    <message name="imAlive">
+        <part name="parameters" element="tns:imAlive"/>
+    </message>
+    
     <message name="pingResponse">
         <part name="parameters" element="tns:pingResponse"/>
     </message>
@@ -356,6 +368,9 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
         <operation name="ping">
             <input wsam:Action="http://ws.mediator.komparator.org/Mediator/pingRequest" message="tns:ping"/>
             <output wsam:Action="http://ws.mediator.komparator.org/Mediator/pingResponse" message="tns:pingResponse"/>
+        </operation>
+        <operation name="imAlive">
+            <input wsam:Action="http://ws.mediator.komparator.org/Mediator/imAliveRequest" message="tns:imAlive"/>
         </operation>
         <operation name="shopHistory">
             <input wsam:Action="http://ws.mediator.komparator.org/Mediator/shopHistoryRequest" message="tns:shopHistory"/>
@@ -455,6 +470,12 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
             <output>
                 <soap:body use="literal"/>
             </output>
+        </operation>
+        <operation name="imAlive">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
         </operation>
         <operation name="shopHistory">
             <soap:operation soapAction=""/>

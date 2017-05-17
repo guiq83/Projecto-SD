@@ -377,6 +377,10 @@ public String ping(String arg0) {
 	}
 
 @Override
+public void imAlive() {}
+
+
+@Override
 public List<ShoppingResultView> shopHistory() {
 		return _purchaseViews;
 	}
