@@ -32,18 +32,23 @@ public class MediatorApp {
 			wsURL = args[2];
 			wsI = args[3];
 			endpoint = new MediatorEndpointManager(uddiURL, wsName, wsURL);
+			timer = new Timer(/*isDaemon*/ true);
+			
 			if(wsI.equals("1")){// primario
 				endpoint.setPrimary(true);
-				timer = new Timer(/*isDaemon*/ true);
 		        // create LifeProof object
 		        lifeproof = new LifeProof(WSURL2);
-		        timer.schedule(lifeproof, /*delay*/ 0 * 1000, /*period*/ TIMEPERIOD * 1000);
+		        
 			}
-			else				// secundario
+			else{	// secundario
 				endpoint.setPrimary(false);
+				lifeproof = new LifeProof(endpoint);
+			}
+			timer.schedule(lifeproof, /*delay*/ 0 * 1000, /*period*/ TIMEPERIOD * 1000);
 			endpoint.setVerbose(true);
 		}
-
+		
+		
 		try {
 			endpoint.start();
 			endpoint.awaitConnections();

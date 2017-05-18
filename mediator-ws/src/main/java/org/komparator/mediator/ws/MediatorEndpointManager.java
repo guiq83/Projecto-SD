@@ -1,6 +1,7 @@
 package org.komparator.mediator.ws;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.xml.ws.Endpoint;
@@ -9,6 +10,8 @@ import pt.ulisboa.tecnico.sdis.ws.uddi.UDDINaming;
 
 /** End point manager */
 public class MediatorEndpointManager {
+	
+	private static final int TIMEOUT = 5;
 
 	/** UDDI naming server location */
 	private String uddiURL = null;
@@ -40,14 +43,20 @@ public class MediatorEndpointManager {
 	
 	private boolean primary = true;
 
-	private LocalDateTime lastdate = null;
+	private volatile LocalDateTime lastdate = null;
 	
-	public LocalDateTime getLastDate() {
+	public synchronized LocalDateTime getLastDate() {
 		return lastdate;
 	}
 
-	public void setLastDate() {
+	public synchronized void setLastDate() {
 		this.lastdate = LocalDateTime.now();
+	}
+	
+	public synchronized boolean checkLastDate(){//true = OK, false = expired
+		if(lastdate!=null)
+			return this.lastdate.plusSeconds(TIMEOUT).isAfter(LocalDateTime.now());
+		return true;
 	}
 
 	/** Get UDDI Naming instance for contacting UDDI server */
@@ -108,11 +117,11 @@ public class MediatorEndpointManager {
 			throw e;
 		}
 		if(isPrimary()){
+			System.out.println("Running as primary Mediator.");
 			publishToUDDI();
-			//System.out.println("Running as primary Mediator.");
-		}/*
+		}
 		else
-			System.out.println("Running as secondary Mediator.");*/
+			System.out.println("Running as secondary Mediator.");
 	}
 
 	public void awaitConnections() {
