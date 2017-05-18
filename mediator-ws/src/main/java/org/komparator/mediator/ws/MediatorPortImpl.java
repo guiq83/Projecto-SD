@@ -381,7 +381,6 @@ public void imAlive() {
 	if(!this.endpointManager.isPrimary()){ // so faz coisas se for o secundario
 		this.endpointManager.setLastDate();
 	}
-	
 }
 
 
