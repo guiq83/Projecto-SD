@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 import javax.xml.ws.Endpoint;
 
+import org.komparator.mediator.ws.cli.MediatorClient;
+
 import pt.ulisboa.tecnico.sdis.ws.uddi.UDDINaming;
 
 /** End point manager */
@@ -42,6 +44,15 @@ public class MediatorEndpointManager {
 	private UDDINaming uddiNaming = null;
 	
 	private boolean primary = true;
+	private MediatorClient client = null;
+
+	public MediatorClient getClient() {
+		return client;
+	}
+
+	public void setClient(MediatorClient client) {
+		this.client = client;
+	}
 
 	private volatile LocalDateTime lastdate = null;
 	

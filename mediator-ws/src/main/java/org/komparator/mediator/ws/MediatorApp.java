@@ -2,6 +2,8 @@ package org.komparator.mediator.ws;
 
 import java.util.Timer;
 
+import org.komparator.mediator.ws.cli.MediatorClient;
+
 public class MediatorApp {
 	
 	private static final String WSURL2 = "http://localhost:8072/mediator-ws/endpoint";
@@ -36,13 +38,16 @@ public class MediatorApp {
 			
 			if(wsI.equals("1")){// primario
 				endpoint.setPrimary(true);
+				try{
+					endpoint.setClient(new MediatorClient(WSURL2));
+				} catch(Exception e){System.out.println(e.toString());}
 		        // create LifeProof object
-		        lifeproof = new LifeProof(WSURL2);
+		        lifeproof = new LifeProof(endpoint, true);
 		        
 			}
 			else{	// secundario
 				endpoint.setPrimary(false);
-				lifeproof = new LifeProof(endpoint);
+				lifeproof = new LifeProof(endpoint, false);
 			}
 			timer.schedule(lifeproof, /*delay*/ 0 * 1000, /*period*/ TIMEPERIOD * 1000);
 			endpoint.setVerbose(true);
