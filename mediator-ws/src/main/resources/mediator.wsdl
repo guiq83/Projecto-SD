@@ -133,8 +133,7 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
             </xs:complexType>
             
              <xs:complexType name="imAlive">
-                <xs:sequence>
-                </xs:sequence>
+                <xs:sequence/>
             </xs:complexType>
 
             <xs:complexType name="pingResponse">
