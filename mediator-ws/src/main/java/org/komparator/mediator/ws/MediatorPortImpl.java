@@ -239,6 +239,8 @@ public ShoppingResultView buyCart(String cartId, String creditCardNr)
 	shopR.setId(generatePurchaseId(""));
 	_carts.remove(cartId);
 	_purchaseViews.add(0, shopR);
+	
+	updateShopHistory(shopR);
 		
 	return shopR;
 }
@@ -383,11 +385,18 @@ public void imAlive() {
 	}
 }
 
+@Override
+public void updateShopHistory(ShoppingResultView shopResult){
+	if(endpointManager.isPrimary())
+		endpointManager.getClient().updateShopHistory(shopResult);
+	else
+		_purchaseViews.add(shopResult);
+}
 
 @Override
 public List<ShoppingResultView> shopHistory() {
 		return _purchaseViews;
-	}
+}
 
 @Override
 public List<CartView> listCarts() {

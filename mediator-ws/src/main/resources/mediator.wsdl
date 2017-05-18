@@ -58,6 +58,8 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
             <xs:element name="ping" type="tns:ping"/>
             
             <xs:element name="imAlive" type="tns:imAlive"/>
+            
+            <xs:element name="updateShopHistory" type="tns:updateShopHistory"/>
 
             <xs:element name="pingResponse" type="tns:pingResponse"/>
 
@@ -135,7 +137,13 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
              <xs:complexType name="imAlive">
                 <xs:sequence/>
             </xs:complexType>
-
+            
+            <xs:complexType name="updateShopHistory">
+                <xs:sequence>
+                    <xs:element name="shopResult" type="tns:shoppingResultView" minOccurs="0"/>
+                </xs:sequence>
+            </xs:complexType>
+            
             <xs:complexType name="pingResponse">
                 <xs:sequence>
                     <xs:element name="return" type="xs:string" minOccurs="0"/>
@@ -329,6 +337,11 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
         <part name="parameters" element="tns:shopHistoryResponse"/>
     </message>
 
+    <message name="updateShopHistory">
+        <part name="parameters" element="tns:updateShopHistory"/>
+    </message>
+
+
     <!-- Port Type (Interface) -->
     <portType name="MediatorPortType">
         <operation name="clear">
@@ -375,6 +388,11 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
             <input wsam:Action="http://ws.mediator.komparator.org/Mediator/shopHistoryRequest" message="tns:shopHistory"/>
             <output wsam:Action="http://ws.mediator.komparator.org/Mediator/shopHistoryResponse" message="tns:shopHistoryResponse"/>
         </operation>
+        
+        <operation name="updateShopHistory">
+            <input wsam:Action="http://ws.mediator.komparator.org/Mediator/updateShopHistoryRequest" message="tns:updateShopHistory"/>
+        </operation>        
+        
     </portType>
 
     <!-- SOAP/HTTP Binding -->
@@ -484,6 +502,13 @@ wsdl:service, wsdl:portType, wsdl:types and wsdl:binding below
             <output>
                 <soap:body use="literal"/>
             </output>
+        </operation>
+        
+        <operation name="updateShopHistory">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
         </operation>
     </binding>
 

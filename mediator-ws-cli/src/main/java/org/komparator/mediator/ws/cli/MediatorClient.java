@@ -125,6 +125,12 @@ public class MediatorClient
 	 public void imAlive() {
 		port.imAlive();
 	 }
+    
+    @Override
+	 public void updateShopHistory(ShoppingResultView shopResult){
+		port.updateShopHistory(shopResult);
+	 }
+
 
     @Override
 	 public List<ItemView> searchItems(String descText) throws InvalidText_Exception {
