@@ -41,14 +41,12 @@ public class MediatorApp {
 				try{
 					endpoint.setClient(new MediatorClient(WSURL2));
 				} catch(Exception e){System.out.println(e.toString());}
-		        // create LifeProof object
-		        lifeproof = new LifeProof(endpoint, true);
-		        
 			}
 			else{	// secundario
 				endpoint.setPrimary(false);
-				lifeproof = new LifeProof(endpoint, false);
 			}
+			// create LifeProof object
+	        lifeproof = new LifeProof(endpoint, endpoint.isPrimary());
 			timer.schedule(lifeproof, /*delay*/ 0 * 1000, /*period*/ TIMEPERIOD * 1000);
 			endpoint.setVerbose(true);
 		}
