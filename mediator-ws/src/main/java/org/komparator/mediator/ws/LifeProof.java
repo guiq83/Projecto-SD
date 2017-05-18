@@ -22,6 +22,7 @@ public class LifeProof extends TimerTask{
 				if(!mediator.checkLastDate()){
 					try{
 						System.out.println("Running as primary Mediator.");
+						mediator.setPrimary(true);
 						mediator.publishToUDDI();
 					} catch(Exception e){System.out.println(e.toString());}
 					stop = true;
