@@ -130,6 +130,11 @@ public class MediatorClient
 	 public void updateShopHistory(ShoppingResultView shopResult){
 		port.updateShopHistory(shopResult);
 	 }
+    
+    @Override
+	 public void updateCart(String cartId, CartView carts){
+		port.updateCart(cartId, carts);
+	 }
 
 
     @Override

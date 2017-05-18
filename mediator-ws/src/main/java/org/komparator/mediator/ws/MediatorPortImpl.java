@@ -142,6 +142,7 @@ public void addToCart(String cartId, ItemIdView itemId, int itemQty)
 		newCv = new CartView();
 		newCv.setCartId(cartId);
 		_carts.put(cartId,newCv);
+		updateCart(cartId, newCv);
 		cv = newCv;
 	}
 	
@@ -391,6 +392,14 @@ public void updateShopHistory(ShoppingResultView shopResult){
 		endpointManager.getClient().updateShopHistory(shopResult);
 	else
 		_purchaseViews.add(shopResult);
+}
+
+@Override
+public void updateCart(String cartId, CartView carts){
+	if(endpointManager.isPrimary())
+		endpointManager.getClient().updateCart(cartId, carts);
+	else
+		_carts.put(cartId, carts);
 }
 
 @Override
