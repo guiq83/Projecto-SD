@@ -1,6 +1,7 @@
 package org.komparator.mediator.ws;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import javax.xml.ws.Endpoint;
 
@@ -38,6 +39,16 @@ public class MediatorEndpointManager {
 	private UDDINaming uddiNaming = null;
 	
 	private boolean primary = true;
+
+	private LocalDateTime lastdate = null;
+	
+	public LocalDateTime getLastDate() {
+		return lastdate;
+	}
+
+	public void setLastDate() {
+		this.lastdate = LocalDateTime.now();
+	}
 
 	/** Get UDDI Naming instance for contacting UDDI server */
 	UDDINaming getUddiNaming() {

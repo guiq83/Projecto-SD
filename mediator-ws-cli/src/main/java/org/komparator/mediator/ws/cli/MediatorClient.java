@@ -120,6 +120,11 @@ public class MediatorClient
 	 public String ping(String arg0) {
 		return port.ping(arg0);
 	 }
+    
+    @Override
+	 public void imAlive() {
+		port.imAlive();
+	 }
 
     @Override
 	 public List<ItemView> searchItems(String descText) throws InvalidText_Exception {

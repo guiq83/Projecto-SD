@@ -377,7 +377,12 @@ public String ping(String arg0) {
 	}
 
 @Override
-public void imAlive() {}
+public void imAlive() {
+	if(!this.endpointManager.isPrimary()){ // so faz coisas se for o secundario
+		this.endpointManager.setLastDate();
+	}
+	
+}
 
 
 @Override

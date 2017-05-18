@@ -41,6 +41,8 @@ public class MediatorClientApp {
         /*
         System.out.println("Invoke buyCart(\"1\", \"4024007102923926\")...");
         client.buyCart("1", "4024007102923926");
-			*/
+		*/
+        
+        client.imAlive();
     }
 }
