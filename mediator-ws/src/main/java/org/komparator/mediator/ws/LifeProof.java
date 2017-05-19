@@ -21,9 +21,12 @@ public class LifeProof extends TimerTask{
 			else
 				if(!mediator.checkLastDate()){
 					try{
+						System.out.println("Secondary Mediator: didn't receive imAlive.");
 						System.out.println("Running as primary Mediator.");
 						mediator.setPrimary(true);
 						mediator.publishToUDDI();
+						System.out.println("Awaiting connections");
+						System.out.println("Press enter to shutdown");
 					} catch(Exception e){System.out.println(e.toString());}
 					stop = true;
 				}

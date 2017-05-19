@@ -382,6 +382,7 @@ public String ping(String arg0) {
 @Override
 public void imAlive() {
 	if(!this.endpointManager.isPrimary()){ // so faz coisas se for o secundario
+		System.out.println("Secondary Mediator: received imAlive.");
 		this.endpointManager.setLastDate();
 	}
 }

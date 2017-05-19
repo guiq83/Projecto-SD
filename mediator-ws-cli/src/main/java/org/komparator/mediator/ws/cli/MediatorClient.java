@@ -123,6 +123,7 @@ public class MediatorClient
     
     @Override
 	 public void imAlive() {
+    	System.out.println("Primary Mediator: sent imAlive.");
 		port.imAlive();
 	 }
     
