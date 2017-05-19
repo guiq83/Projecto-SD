@@ -5,6 +5,7 @@ import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.ws.BindingProvider;
 
@@ -22,8 +23,9 @@ import pt.ulisboa.tecnico.sdis.ws.uddi.UDDINaming;
 public class MediatorClient 
    implements MediatorPortType {
 	
-	private static final int CONNECTIONTIMEOUT = 5;
-	private static final int RECEIVETIMEOUT = 5;
+	private static final int CONNECTION_TIMEOUT = 5;
+	private static final int RECEIVE_TIMEOUT = 5;
+	private static final int WAIT_TIME = 10; //time to wait before retrying to connect after server is down
 
  /** WS service */
     MediatorService service = null;
@@ -108,7 +110,7 @@ public class MediatorClient
             Map<String, Object> requestContext = bindingProvider.getRequestContext();
             requestContext.put(ENDPOINT_ADDRESS_PROPERTY, wsURL);
             
-            int connectionTimeout = CONNECTIONTIMEOUT * 1000;
+            int connectionTimeout = CONNECTION_TIMEOUT * 1000;
             // The connection timeout property has different names in different versions of JAX-WS
             // Set them all to avoid compatibility issues
 
@@ -121,7 +123,7 @@ public class MediatorClient
                 requestContext.put(propName, connectionTimeout);
             System.out.printf("Set connection timeout to %d milliseconds%n", connectionTimeout);
 
-            int receiveTimeout = RECEIVETIMEOUT * 1000;
+            int receiveTimeout = RECEIVE_TIMEOUT * 1000;
             // The receive timeout property has alternative names
             // Again, set them all to avoid compatibility issues
             final List<String> RECV_TIME_PROPS = new ArrayList<String>();
@@ -133,6 +135,15 @@ public class MediatorClient
                 requestContext.put(propName, receiveTimeout);
             System.out.printf("Set receive timeout to %d milliseconds%n", receiveTimeout);
         }
+    }
+
+    private void retryConnection() {
+    	try{
+    		TimeUnit.SECONDS.sleep(WAIT_TIME); //wait for secondary server to detect primary is down and register to UDDI
+    		uddiLookup();
+    		createStub();
+    	} catch(Exception e){System.out.println(e.toString());}
+    	
     }
 
     // remote invocation methods ----------------------------------------------
@@ -149,8 +160,12 @@ public class MediatorClient
     		return port.ping(arg0);
 		} catch(Exception e){
 			System.out.println(e.toString());
-			return null;
+			retryConnection();
+			try{
+	    		return port.ping(arg0);
+	    	} catch(Exception e2){System.out.println(e.toString());}
 		}
+    	return null;
 	 }
     
     @Override
