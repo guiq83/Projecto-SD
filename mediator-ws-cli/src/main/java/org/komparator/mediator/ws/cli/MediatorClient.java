@@ -151,7 +151,15 @@ public class MediatorClient
     
     @Override
 	 public void clear() {
-		 port.clear();
+    	try{
+    		port.clear();
+		} catch(Exception e){
+			System.out.println(e.toString());
+			retryConnection();
+			try{
+				port.clear();
+	    	} catch(Exception e2){System.out.println(e.toString());}
+		}
 	 }
 
     @Override
@@ -176,45 +184,114 @@ public class MediatorClient
     
     @Override
 	 public void updateShopHistory(ShoppingResultView shopResult){
-		port.updateShopHistory(shopResult);
+    	try{
+    		port.updateShopHistory(shopResult);
+		} catch(Exception e){
+			System.out.println(e.toString());
+			retryConnection();
+			try{
+				port.updateShopHistory(shopResult);
+	    	} catch(Exception e2){System.out.println(e.toString());}
+		}
 	 }
     
     @Override
 	 public void updateCart(String cartId, CartView carts){
-		port.updateCart(cartId, carts);
+    	try{
+    		port.updateCart(cartId, carts);
+		} catch(Exception e){
+			System.out.println(e.toString());
+			retryConnection();
+			try{
+				port.updateCart(cartId, carts);
+	    	} catch(Exception e2){System.out.println(e.toString());}
+		}
 	 }
 
 
     @Override
 	 public List<ItemView> searchItems(String descText) throws InvalidText_Exception {
-		return port.searchItems(descText);
+    	try{
+    		return port.searchItems(descText);
+		} catch(Exception e){
+			System.out.println(e.toString());
+			retryConnection();
+			try{
+				return port.searchItems(descText);
+	    	} catch(Exception e2){System.out.println(e.toString());}
+		}
+		return null;
 	 }
 
     @Override
 	 public List<CartView> listCarts() {
-		return port.listCarts();
+    	try{
+    		return port.listCarts();
+		} catch(Exception e){
+			System.out.println(e.toString());
+			retryConnection();
+			try{
+				return port.listCarts();
+	    	} catch(Exception e2){System.out.println(e.toString());}
+		}
+		return null;
 	 }
 
 	 @Override
 	 public List<ItemView> getItems(String productId) throws InvalidItemId_Exception {
-		return port.getItems(productId);
+		 try{
+				return port.getItems(productId);
+			} catch(Exception e){
+				System.out.println(e.toString());
+				retryConnection();
+				try{
+					return port.getItems(productId);
+		    	} catch(Exception e2){System.out.println(e.toString());}
+			}
+			return null;
 	 }
 
 	 @Override
 	 public ShoppingResultView buyCart(String cartId, String creditCardNr)
 	  throws EmptyCart_Exception, InvalidCartId_Exception, InvalidCreditCard_Exception {
-		 return port.buyCart(cartId, creditCardNr);
+		 try{
+			 return port.buyCart(cartId, creditCardNr);
+			} catch(Exception e){
+				System.out.println(e.toString());
+				retryConnection();
+				try{
+					 return port.buyCart(cartId, creditCardNr);
+		    	} catch(Exception e2){System.out.println(e.toString());}
+			}
+			return null;
 	 }
 
 	 @Override
 	 public void addToCart(String cartId, ItemIdView itemId, int itemQty) throws InvalidCartId_Exception,
 			InvalidItemId_Exception, InvalidQuantity_Exception, NotEnoughItems_Exception {
-		port.addToCart(cartId, itemId, itemQty);
+		 try{
+				port.addToCart(cartId, itemId, itemQty);
+			} catch(Exception e){
+				System.out.println(e.toString());
+				retryConnection();
+				try{
+					port.addToCart(cartId, itemId, itemQty);
+		    	} catch(Exception e2){System.out.println(e.toString());}
+			}
 	 }
 
 	 @Override
 	 public List<ShoppingResultView> shopHistory() {
-		return port.shopHistory();
+		 try{
+				return port.shopHistory();
+			} catch(Exception e){
+				System.out.println(e.toString());
+				retryConnection();
+				try{
+					return port.shopHistory();
+		    	} catch(Exception e2){System.out.println(e.toString());}
+			}
+			return null;
 	 }
  
 }
