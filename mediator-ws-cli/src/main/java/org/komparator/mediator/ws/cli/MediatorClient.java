@@ -2,6 +2,7 @@ package org.komparator.mediator.ws.cli;
 
 import static javax.xml.ws.BindingProvider.ENDPOINT_ADDRESS_PROPERTY;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,9 @@ import pt.ulisboa.tecnico.sdis.ws.uddi.UDDINaming;
  */
 public class MediatorClient 
    implements MediatorPortType {
+	
+	private static final int CONNECTIONTIMEOUT = 5;
+	private static final int RECEIVETIMEOUT = 5;
 
  /** WS service */
     MediatorService service = null;
@@ -101,12 +105,35 @@ public class MediatorClient
             if (verbose)
                 System.out.println("Setting endpoint address ...");
             BindingProvider bindingProvider = (BindingProvider) port;
-            Map<String, Object> requestContext = bindingProvider
-                    .getRequestContext();
+            Map<String, Object> requestContext = bindingProvider.getRequestContext();
             requestContext.put(ENDPOINT_ADDRESS_PROPERTY, wsURL);
+            
+            int connectionTimeout = CONNECTIONTIMEOUT * 1000;
+            // The connection timeout property has different names in different versions of JAX-WS
+            // Set them all to avoid compatibility issues
+
+            final List<String> CONN_TIME_PROPS = new ArrayList<String>();
+            CONN_TIME_PROPS.add("com.sun.xml.ws.connect.timeout");
+            CONN_TIME_PROPS.add("com.sun.xml.internal.ws.connect.timeout");
+            CONN_TIME_PROPS.add("javax.xml.ws.client.connectionTimeout");
+            // Set timeout until a connection is established (unit is milliseconds; 0 means infinite)
+            for (String propName : CONN_TIME_PROPS)
+                requestContext.put(propName, connectionTimeout);
+            System.out.printf("Set connection timeout to %d milliseconds%n", connectionTimeout);
+
+            int receiveTimeout = RECEIVETIMEOUT * 1000;
+            // The receive timeout property has alternative names
+            // Again, set them all to avoid compatibility issues
+            final List<String> RECV_TIME_PROPS = new ArrayList<String>();
+            RECV_TIME_PROPS.add("com.sun.xml.ws.request.timeout");
+            RECV_TIME_PROPS.add("com.sun.xml.internal.ws.request.timeout");
+            RECV_TIME_PROPS.add("javax.xml.ws.client.receiveTimeout");
+            // Set timeout until the response is received (unit is milliseconds; 0 means infinite)
+            for (String propName : RECV_TIME_PROPS)
+                requestContext.put(propName, receiveTimeout);
+            System.out.printf("Set receive timeout to %d milliseconds%n", receiveTimeout);
         }
     }
-
 
     // remote invocation methods ----------------------------------------------
     
@@ -118,7 +145,12 @@ public class MediatorClient
 
     @Override
 	 public String ping(String arg0) {
-		return port.ping(arg0);
+    	try{
+    		return port.ping(arg0);
+		} catch(Exception e){
+			System.out.println(e.toString());
+			return null;
+		}
 	 }
     
     @Override

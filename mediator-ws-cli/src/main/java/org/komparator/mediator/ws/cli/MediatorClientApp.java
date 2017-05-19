@@ -30,10 +30,10 @@ public class MediatorClientApp {
             System.out.printf("Creating client using UDDI at %s for server with name %s%n",uddiURL, wsName);
             client = new MediatorClient(uddiURL, wsName);
         }
-
+        
         // the following remote invocations are just basic examples
         // the actual tests are made using JUnit
-       
+
         System.out.println("Invoke ping()...");
         String result = client.ping("client");
         System.out.println(result);
@@ -44,5 +44,6 @@ public class MediatorClientApp {
 		*/
         
         client.imAlive();
+        
     }
 }
