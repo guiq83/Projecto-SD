@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.sdis.ws.uddi.UDDINaming;
 /** End point manager */
 public class MediatorEndpointManager {
 	
-	private static final int TIMEOUT = 5;
+	public static final int TIMEOUT = 5;
 
 	/** UDDI naming server location */
 	private String uddiURL = null;
@@ -60,7 +60,7 @@ public class MediatorEndpointManager {
 		return lastdate;
 	}
 
-	public synchronized void setLastDate() {
+	public synchronized void setLastDate() { // updates lastdate to current date
 		this.lastdate = LocalDateTime.now();
 	}
 	

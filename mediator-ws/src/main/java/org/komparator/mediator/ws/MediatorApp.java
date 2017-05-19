@@ -7,8 +7,7 @@ import org.komparator.mediator.ws.cli.MediatorClient;
 public class MediatorApp {
 	
 	private static final String WSURL2 = "http://localhost:8072/mediator-ws/endpoint";
-	private static final int TIMEPERIOD = 5;
-
+	
 	public static void main(String[] args) throws Exception {
 		// Check arguments
 		if (args.length == 0 || args.length == 2) {
@@ -47,7 +46,7 @@ public class MediatorApp {
 			}
 			// create LifeProof object
 	        lifeproof = new LifeProof(endpoint, endpoint.isPrimary());
-			timer.schedule(lifeproof, /*delay*/ 0 * 1000, /*period*/ TIMEPERIOD * 1000);
+			timer.schedule(lifeproof, /*delay*/ 0 * 1000, /*period*/ endpoint.TIMEOUT * 1000);
 			endpoint.setVerbose(true);
 		}
 		
