@@ -256,7 +256,10 @@ public class MediatorClient
 	  throws EmptyCart_Exception, InvalidCartId_Exception, InvalidCreditCard_Exception {
 		 try{
 			 return port.buyCart(cartId, creditCardNr);
-			} catch(Exception e){
+			} catch(EmptyCart_Exception empty){throw empty;}
+		 	catch(InvalidCartId_Exception ici){throw ici;}
+		 	catch(InvalidCreditCard_Exception icc){throw icc;}
+		 	catch(Exception e){
 				System.out.println(e.toString());
 				retryConnection();
 				try{
@@ -271,7 +274,11 @@ public class MediatorClient
 			InvalidItemId_Exception, InvalidQuantity_Exception, NotEnoughItems_Exception {
 		 try{
 				port.addToCart(cartId, itemId, itemQty);
-			} catch(Exception e){
+			} catch(InvalidCartId_Exception ici){throw ici;}
+		 	catch(InvalidItemId_Exception iii){throw iii;}
+		 	catch(InvalidQuantity_Exception iq){throw iq;}
+		 	catch(NotEnoughItems_Exception nei){throw nei;}
+		 	catch(Exception e){
 				System.out.println(e.toString());
 				retryConnection();
 				try{

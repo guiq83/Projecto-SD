@@ -118,9 +118,16 @@ public List<ItemView> searchItems(String descText) throws InvalidText_Exception 
 public void addToCart(String cartId, ItemIdView itemId, int itemQty)
 		throws InvalidCartId_Exception, InvalidItemId_Exception, InvalidQuantity_Exception, NotEnoughItems_Exception {
 	
-	if(cartId == null || cartId.length() == 0 ||  "\n".contains(cartId) || "\t".contains(cartId) || "           ".contains(cartId))
-		throwInvalidCartId("CartId can not bem null or size 0 or just tabulation charecter or just blank spaces!");
-		
+	if(checkId(cartId))
+		throwInvalidCartId("Non existant cart!");
+	if(itemId == null || checkId(itemId.getProductId()))
+		throwInvalidItemId("Non existant item!");
+	if(checkId(itemId.getSupplierId()))
+		throwInvalidItemId("Non existant supplier!");
+	if(itemQty <= 0)
+		throwInvalidQuantity("Invalid quantity!");
+	if(searchCart(cartId) == null)
+		throwInvalidCartId("Cart id not found!");
 		
 	CartItemView cartItemView;
 	ItemView itemView = null;
@@ -130,8 +137,9 @@ public void addToCart(String cartId, ItemIdView itemId, int itemQty)
 	
 	try	{
 		itemView = searchAndCreateItem(itemId, itemQty); // Creates new ItemView from 
-	}catch (InvalidQuantity_Exception iqe) {throwInvalidQuantity("Quantity must be a positive value !");}
-	catch ( NotEnoughItems_Exception neie) {throwNotEnoughItems("There are not enough items to sell !");}
+	}catch (InvalidQuantity_Exception iqe) {throwInvalidQuantity("Quantity must be a positive value!");}
+	catch ( NotEnoughItems_Exception neie) {throwNotEnoughItems("There are not enough items to sell!");}
+	catch(BadProductId_Exception e){throwInvalidItemId("Non existant product id!");}
 		
 	if(itemView == null)
 		throwInvalidItemId("Can not find product with the correspondent itemId! ");
@@ -165,15 +173,46 @@ public void addToCart(String cartId, ItemIdView itemId, int itemQty)
 			
 		}
 
+private boolean lettersInCreditCard(String Nr){
+	int i=0;
+	char a = 'A';
+	for(;i<Nr.length();i++){
+		a = Nr.charAt(i);
+		if(a < '0' || a > '9')
+			return true;
+	}
+	return false;
+}
+
+private boolean checkId(String cartId) {
+	if(cartId == null || cartId.equals("") )
+		return true;
+	if(cartId == null || cartId.length() == 0 ||  "\n".contains(cartId) || "\t".contains(cartId) || "           ".contains(cartId))
+		return true;
+	return false;
+}
+
 @Override
 public ShoppingResultView buyCart(String cartId, String creditCardNr)
 		throws EmptyCart_Exception, InvalidCartId_Exception, InvalidCreditCard_Exception {
-   
-	if(searchCart(cartId) == null)
+	
+	if(checkId(cartId))
 		throwInvalidCartId("Non existant cart!");
+	
+	if(creditCardNr == null || creditCardNr.equals(""))
+		throwInvalidCreditCard("Empty credit card!");
+	
+	if(creditCardNr.length() != 16)
+		throwInvalidCreditCard("Wrong number of credit card digits!");
+	
+	if(searchCart(cartId) == null)
+		throwInvalidCartId("Cart id not found!");
 	
 	if(isEmpty(cartId) == true)
 		throwEmptyCart("The is empty !");
+	
+	if(lettersInCreditCard(creditCardNr))
+		throwInvalidCreditCard("Letters in credit card number!");
 	
 	CreditCardClient creditCardClient = null;
 	String creditCardUrl = null;
@@ -312,15 +351,12 @@ public CartItemView findProduct(ItemIdView itemIdview, CartView cartView){
 	return null;
 }
 
-public ItemView searchAndCreateItem(ItemIdView itemId, int itemQty) throws InvalidQuantity_Exception, NotEnoughItems_Exception {
+public ItemView searchAndCreateItem(ItemIdView itemId, int itemQty) throws InvalidQuantity_Exception, NotEnoughItems_Exception, BadProductId_Exception {
 	ItemView itemView = null;
 	ItemIdView itemIdView;
 	SupplierClient supplier = _clients.get(itemId.getSupplierId());
 	ProductView productView = null;
-	
-	try {
 		productView = supplier.getProduct(itemId.getProductId());
-	} catch(Exception e) {}
 	
 	if(itemQty <=0)
 		throwInvalidQuantity("testString");
