@@ -82,7 +82,11 @@ public class SupplierPortImpl implements SupplierPortType {
 			throwBadProductId("Product identifier cannot be empty or whitespace!");
 		
 		if (quantity <= 0)
-			throwInsufficientQuantity("Can't buy less than one!");
+			throwBadQuantity("Can't buy less than one!");
+		
+		if (quantity > this.getProduct(productId).getQuantity())
+			throwInsufficientQuantity("Not enough products!");
+			
 
 		Supplier supplier = Supplier.getInstance();
 		try{
@@ -212,8 +216,8 @@ public class SupplierPortImpl implements SupplierPortType {
 		throw new BadQuantity_Exception(message, faultInfo);
 	}
 
-	/** Helper method to throw new InsufficientQuantity exception */
 	private void throwInsufficientQuantity(final String message) throws InsufficientQuantity_Exception {
+	/** Helper method to throw new InsufficientQuantity exception */
 		InsufficientQuantity faultInfo = new InsufficientQuantity();
 		faultInfo.message = message;
 		throw new InsufficientQuantity_Exception(message, faultInfo);
