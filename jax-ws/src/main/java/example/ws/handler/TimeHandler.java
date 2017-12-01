@@ -1,4 +1,4 @@
-package example.ws.handler;
+package com.ist.sirs.child_locator.ws.handler;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -17,19 +17,14 @@ import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
 
-/**
- * This SOAPHandler shows how to set/get values from headers in inbound/outbound
- * SOAP messages.
- *
- * A header is created in an outbound message and is read on an inbound message.
- *
- * The value that is read from the header is placed in a SOAP message context
- * property that can be accessed by other handlers or by the application.
- */
 public class TimeHandler implements SOAPHandler<SOAPMessageContext> {
+	
+	public static final String HandlerName = "TimeHeader";
+	public static final String HandlerPrefix = "T";
+	public static final String HandlerNamespace = "http://demo";
 
+	
 	public static final String CONTEXT_PROPERTY = "time.property";
 
 	//
@@ -70,7 +65,7 @@ public class TimeHandler implements SOAPHandler<SOAPMessageContext> {
 					sh = se.addHeader();
 
 				// add header element (name, namespace prefix, namespace)
-				Name name = se.createName("TimeHeader", "d", "http://demo");
+				Name name = se.createName(HandlerName, HandlerPrefix, HandlerNamespace);
 				SOAPHeaderElement element = sh.addHeaderElement(name);
 
 				// add header element value
@@ -95,8 +90,8 @@ public class TimeHandler implements SOAPHandler<SOAPMessageContext> {
 				}
 
 				// get first header element
-				Name name = se.createName("TimeHeader", "d", "http://demo");
-				Iterator it = sh.getChildElements(name);
+				Name name = se.createName(HandlerName, HandlerPrefix, HandlerNamespace);
+				Iterator<?> it = sh.getChildElements(name);
 				// check header element
 				if (!it.hasNext()) {
 					System.out.println("Header element not found.");
@@ -114,7 +109,7 @@ public class TimeHandler implements SOAPHandler<SOAPMessageContext> {
 				smc.setScope(CONTEXT_PROPERTY, Scope.APPLICATION);
 				
 				LocalDateTime messagetime = LocalDateTime.parse(valueString);
-				if(messagetime.plusSeconds(3).isBefore( LocalDateTime.now() ) ) // time > 3 sec, error
+				if(messagetime.plusSeconds(0).isBefore( LocalDateTime.now() ) ) // time > 3 sec, error
 				   throw new RuntimeException("Time exceeded 3 seconds.");
             
 			}
